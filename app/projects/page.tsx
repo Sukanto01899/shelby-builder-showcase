@@ -1,11 +1,16 @@
-import Footer from "@/components/footer";
 import Header from "@/components/header";
-import HomeClient from "@/components/HomeClient";
+import Footer from "@/components/footer";
 import { createAdminClient } from "@/utils/supabase/admin";
+import ProjectsPageClient from "@/components/ProjectsPageClient";
+import { category as categoryOptions } from "@/constant";
 
-export default async function Home() {
+export default async function ProjectsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; category?: string }>;
+}) {
+  const { q, category } = await searchParams;
   const supabase = createAdminClient();
-
   const [projectsRes, buildersRes, categoriesRes] = await Promise.all([
     supabase.from("projects").select("id", { count: "exact", head: true }),
     supabase.from("builders").select("id", { count: "exact", head: true }),
@@ -21,10 +26,13 @@ export default async function Home() {
   return (
     <main className="relative min-h-screen bg-base-100">
       <Header />
-      <HomeClient
+      <ProjectsPageClient
+        categories={categoryOptions}
         projectsCount={projectsCount}
-        buildersCount={buildersCount}
         categoriesCount={uniqueCategories.size}
+        buildersCount={buildersCount}
+        initialQuery={q ?? ""}
+        initialCategory={category ?? "all"}
       />
       <Footer />
     </main>

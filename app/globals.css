@@ -1,26 +1,127 @@
 @import "tailwindcss";
+@plugin "daisyui";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.loading-bar {
+  position: relative;
+  overflow: hidden;
+  background: color-mix(in oklab, var(--color-base-300) 40%, transparent);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.loading-bar__inner {
+  position: absolute;
+  left: -40%;
+  width: 40%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-primary, #ff7ccf),
+    transparent
+  );
+  animation: loading-bar-slide 1.2s ease-in-out infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes loading-bar-slide {
+  0% {
+    left: -40%;
+    width: 40%;
+  }
+  50% {
+    left: 20%;
+    width: 60%;
+  }
+  100% {
+    left: 100%;
+    width: 40%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+[data-theme="shelby-dark"] {
+  color-scheme: dark;
+  --color-base-100: #120c08;
+  --color-base-200: #2b221d;
+  --color-base-300: #3b0f1f;
+  --color-base-content: #f3eee8;
+
+  --color-primary: #ff7ccf;
+  --color-primary-content: #120c08;
+  --color-secondary: #ff8b6a;
+  --color-secondary-content: #120c08;
+  --color-accent: #9be36f;
+  --color-accent-content: #120c08;
+
+  --color-neutral: #2b1f14;
+  --color-neutral-content: #f3eee8;
+
+  --color-info: #d08bff;
+  --color-info-content: #120c08;
+  --color-success: #9be36f;
+  --color-success-content: #120c08;
+  --color-warning: #ff8b6a;
+  --color-warning-content: #120c08;
+  --color-error: #3b0f1f;
+  --color-error-content: #f3eee8;
+
+  --radius-selector: 9999px;
+  --radius-field: 14px;
+  --radius-box: 24px;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0.75;
+  --noise: 0;
+}
+
+[data-theme="shelby-light"] {
+  color-scheme: light;
+  --color-base-100: #fbf7f2;
+  --color-base-200: #f3eee8;
+  --color-base-300: #ffe3f3;
+  --color-base-content: #2b1f14;
+
+  --color-primary: #ff7ccf;
+  --color-primary-content: #2b1f14;
+  --color-secondary: #ff8b6a;
+  --color-secondary-content: #2b1f14;
+  --color-accent: #9be36f;
+  --color-accent-content: #2b1f14;
+
+  --color-neutral: #2b1f14;
+  --color-neutral-content: #fbf7f2;
+
+  --color-info: #d08bff;
+  --color-info-content: #2b1f14;
+  --color-success: #9be36f;
+  --color-success-content: #2b1f14;
+  --color-warning: #ff8b6a;
+  --color-warning-content: #2b1f14;
+  --color-error: #3b0f1f;
+  --color-error-content: #fbf7f2;
+
+  --radius-selector: 9999px;
+  --radius-field: 14px;
+  --radius-box: 24px;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0.75;
+  --noise: 0;
+}
+
+[data-theme="shelby-light"] .see-more-badge {
+  background: var(--color-base-100);
+  color: var(--color-base-content);
+  border-color: var(--color-base-content);
+}
+
+[data-theme="shelby-light"] .loading-bar {
+  background: color-mix(in oklab, var(--color-base-content) 20%, transparent);
+}
+
+[data-theme="shelby-light"] .loading-bar__inner {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-base-content),
+    transparent
+  );
 }

@@ -1,0 +1,22 @@
+export const category = [
+  {
+    name: "All",
+    value: "all",
+  },
+  { name: "Video Streaming", value: "video-streaming" },
+  { name: "AI Training & Inference", value: "ai-training-inference" },
+  { name: "Data Analytics", value: "data-analytics" },
+  { name: "DePIN Storage", value: "depin-storage" },
+  { name: "Media CDN", value: "media-cdn" },
+  { name: "Archival & Backup", value: "archival-backup" },
+  { name: "Web3 Gaming Assets", value: "web3-gaming-assets" },
+  { name: "NFT & Digital Collections", value: "nft-digital-collections" },
+  { name: "Social Media / UGC", value: "social-media-ugc" },
+  { name: "Data Marketplaces", value: "data-marketplaces" },
+  { name: "Scientific / Research Data", value: "scientific-research-data" },
+  { name: "Compliance & Audit Logs", value: "compliance-audit-logs" },
+  { name: "Enterprise Data Lakes", value: "enterprise-data-lakes" },
+  { name: "Sensor / IoT Data", value: "sensor-iot-data" },
+  { name: "Developer Tools & SDKs", value: "developer-tools-sdks" },
+  { name: "L2 / Rollup Data Availability", value: "l2-rollup-data-availability" },
+];
