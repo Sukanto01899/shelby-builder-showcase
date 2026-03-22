@@ -3,13 +3,51 @@ import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import BuilderCard from "@/components/builder-card";
+
+type BuilderRow = {
+  id: string;
+  name: string;
+  image_url: string | null;
+  github_url: string | null;
+  x_profile_url: string | null;
+  email: string | null;
+  love?: string | null;
+  discord_username: string | null;
+};
 
 export default async function BuildersPage() {
   const supabase = createClient(await cookies());
-  const { data: builders } = await supabase
+  const { data: buildersWithLove, error: buildersError } = await supabase
     .from("builders")
-    .select("id, name, image_url, github_url, x_profile_url, email")
+    .select(
+      "id, name, image_url, github_url, x_profile_url, email, love, discord_username",
+    )
     .order("created_at", { ascending: false });
+
+  let builders: BuilderRow[] = (buildersWithLove || []) as BuilderRow[];
+  if (buildersError) {
+    const { data: fallbackBuilders } = await supabase
+      .from("builders")
+      .select(
+        "id, name, image_url, github_url, x_profile_url, email, discord_username",
+      )
+      .order("created_at", { ascending: false });
+    builders = (fallbackBuilders || []) as BuilderRow[];
+  }
+
+  const { data: loveRows, error: loveError } = await supabase
+    .from("builder_loves")
+    .select("builder_id");
+
+  const loveCounts = new Map<string, number>();
+  if (!loveError && Array.isArray(loveRows)) {
+    loveRows.forEach((row) => {
+      const id = String((row as { builder_id?: string }).builder_id || "");
+      if (!id) return;
+      loveCounts.set(id, (loveCounts.get(id) || 0) + 1);
+    });
+  }
 
   return (
     <main className="bg-base-100 pb-20">
@@ -48,86 +86,23 @@ export default async function BuildersPage() {
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold text-base-content">Builders</h2>
           <span className="text-sm text-base-content/60">
-            {builders?.length ?? 0} profiles
+            {builders.length} profiles
           </span>
         </div>
 
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {(builders || []).map((builder) => (
-            <article
+          {builders.map((builder) => (
+            <BuilderCard
               key={builder.id}
-              className="rounded-3xl border border-base-200/70 bg-base-100 p-6 shadow-sm transition hover:-translate-y-1 hover:border-base-300 hover:shadow-lg"
-            >
-              <div className="flex items-center gap-4">
-                <div className="h-14 w-14 overflow-hidden rounded-full border border-base-200 bg-base-200/70">
-                  {builder.image_url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={builder.image_url}
-                      alt={builder.name}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : null}
-                </div>
-                <div>
-                  <p className="text-lg font-semibold text-base-content">
-                    {builder.name}
-                  </p>
-                  <p className="text-xs text-base-content/60">
-                    {builder.email}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-5 flex items-center gap-3">
-                {builder.github_url ? (
-                  <a
-                    className="btn btn-ghost btn-sm"
-                    href={builder.github_url}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="GitHub"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="h-4 w-4"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M16 18l-4-4 4-4" />
-                      <path d="M8 6l4 4-4 4" />
-                    </svg>
-                  </a>
-                ) : null}
-                {builder.x_profile_url ? (
-                  <a
-                    className="btn btn-ghost btn-sm"
-                    href={builder.x_profile_url}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="X"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="h-4 w-4"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M4 4l16 16" />
-                      <path d="M20 4L4 20" />
-                    </svg>
-                  </a>
-                ) : null}
-              </div>
-            </article>
+              id={builder.id}
+              name={builder.name}
+              email={builder.email}
+              imageUrl={builder.image_url}
+              githubUrl={builder.github_url}
+              xProfileUrl={builder.x_profile_url}
+              initialLoveCount={loveCounts.get(builder.id) || 0}
+              discordUsername={builder.discord_username}
+            />
           ))}
         </div>
       </section>

@@ -6,6 +6,7 @@ import ProjectStats from "@/components/project/ProjectStats";
 import ProjectComments from "@/components/project/ProjectComments";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { GithubIcon, MailIcon, XIcon } from "@/components/ui/icon";
 
 type CommentItem = {
   id: string;
@@ -24,7 +25,7 @@ export default async function ProjectDetailsPage({
   const { data, error } = await supabase
     .from("projects")
     .select(
-      "title, description, category, status, views, like_count, tags, tech_stack, live_url, github_repo_url, thumbnail_url, guideline_video_url, rating, comments, builders(name, image_url, github_url, x_profile_url)",
+      "title, description, category, status, views, like_count, tags, tech_stack, live_url, github_repo_url, thumbnail_url, guideline_video_url, rating, comments, builders(name, discord_username, email, image_url, github_url, x_profile_url)",
     )
     .eq("slug", slug)
     .maybeSingle();
@@ -43,8 +44,9 @@ export default async function ProjectDetailsPage({
 
   const views = data.views || 0;
   const likes = data.like_count || 0;
-  const builder =
-    Array.isArray(data.builders) ? data.builders[0] : data.builders;
+  const builder = Array.isArray(data.builders)
+    ? data.builders[0]
+    : data.builders;
 
   return (
     <main className="bg-base-100 pb-20">
@@ -81,6 +83,46 @@ export default async function ProjectDetailsPage({
                   alt={data.title}
                   className="h-80 w-full object-cover"
                 />
+              </div>
+            ) : null}
+
+            {data.tech_stack?.length > 0 || data.tags?.length > 0 ? (
+              <div className="rounded-3xl border border-base-200/70 bg-base-100 p-6 shadow-sm space-y-4">
+                {data.tech_stack?.length > 0 ? (
+                  <div>
+                    <h3 className="text-sm font-semibold text-base-content mb-3">
+                      Tech Stack
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {data.tech_stack.map((tech: string) => (
+                        <span
+                          key={tech}
+                          className="badge badge-primary badge-outline text-xs"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
+                {data.tags?.length > 0 ? (
+                  <div>
+                    <h3 className="text-sm font-semibold text-base-content mb-3">
+                      Tags
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {data.tags.map((tag: string) => (
+                        <span
+                          key={tag}
+                          className="badge badge-secondary badge-outline text-xs"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
               </div>
             ) : null}
 
@@ -126,31 +168,23 @@ export default async function ProjectDetailsPage({
                   <p className="font-semibold text-base-content">
                     {builder?.name ?? "Builder"}
                   </p>
-                  <p className="text-xs text-base-content/60">{slug}</p>
+                  {builder?.discord_username && (
+                    <p className="text-xs text-base-content/60">
+                      @{builder.discord_username}
+                    </p>
+                  )}
                 </div>
               </div>
-              <div className="flex items-center gap-3 text-sm">
+              <div className="flex items-center gap-2">
                 {builder?.github_url ? (
                   <a
                     className="btn btn-ghost btn-sm"
                     href={builder.github_url}
                     target="_blank"
                     rel="noreferrer"
-                    aria-label="GitHub"
+                    title="GitHub"
                   >
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="h-4 w-4"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M16 18l-4-4 4-4" />
-                      <path d="M8 6l4 4-4 4" />
-                    </svg>
+                    <GithubIcon className="w-4 h-4" />
                   </a>
                 ) : null}
                 {builder?.x_profile_url ? (
@@ -159,21 +193,18 @@ export default async function ProjectDetailsPage({
                     href={builder.x_profile_url}
                     target="_blank"
                     rel="noreferrer"
-                    aria-label="X"
+                    title="X (Twitter)"
                   >
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="h-4 w-4"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M4 4l16 16" />
-                      <path d="M20 4L4 20" />
-                    </svg>
+                    <XIcon className="w-4 h-4" />
+                  </a>
+                ) : null}
+                {builder?.email ? (
+                  <a
+                    className="btn btn-ghost btn-sm"
+                    href={`mailto:${builder.email}`}
+                    title="Email"
+                  >
+                    <MailIcon className="w-4 h-4" />
                   </a>
                 ) : null}
               </div>

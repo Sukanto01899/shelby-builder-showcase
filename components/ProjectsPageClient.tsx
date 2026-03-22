@@ -75,7 +75,7 @@ const ProjectsPageClient = ({
                 Projects
               </p>
               <h1 className="mt-4 text-3xl font-semibold text-base-content sm:text-5xl">
-                Shelby project directory
+                Community project directory
               </h1>
               <p className="mt-4 max-w-2xl text-base text-base-content/70">
                 Search and filter every public project submitted to the Shelby

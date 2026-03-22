@@ -5,7 +5,7 @@ CREATE OR REPLACE FUNCTION public.project_has_liked(
 RETURNS TABLE(liked boolean) AS $$
 BEGIN
   RETURN QUERY
-  SELECT (liked_by @> ARRAY[p_fingerprint])
+  SELECT (public.projects.liked_by @> ARRAY[p_fingerprint])
   FROM public.projects
   WHERE slug = p_slug;
 END;

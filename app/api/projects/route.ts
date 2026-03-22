@@ -5,7 +5,10 @@ import { createClient } from "@/utils/supabase/server";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const page = Math.max(1, Number(searchParams.get("page") || 1));
-  const limit = Math.min(24, Math.max(1, Number(searchParams.get("limit") || 12)));
+  const limit = Math.min(
+    24,
+    Math.max(1, Number(searchParams.get("limit") || 12)),
+  );
   const query = String(searchParams.get("q") || "").trim();
   const category = String(searchParams.get("category") || "").trim();
   const from = (page - 1) * limit;
@@ -15,7 +18,7 @@ export async function GET(request: Request) {
   let requestBuilder = supabase
     .from("projects")
     .select(
-      "id, title, description, category, status, views, like_count, thumbnail_url, slug, rating, live_url, github_repo_url, builders(name)",
+      "id, title, description, category, status, views, like_count, thumbnail_url, slug, rating, live_url, github_repo_url, builders(id, name, discord_username, image_url)",
     )
     .order("created_at", { ascending: false })
     .range(from, to);

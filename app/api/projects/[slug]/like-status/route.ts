@@ -23,6 +23,7 @@ export async function POST(
   });
 
   if (error) {
+    console.log(error);
     return NextResponse.json(
       { error: error.message || "Failed to check like status." },
       { status: 400 },

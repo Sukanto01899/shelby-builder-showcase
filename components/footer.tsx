@@ -1,5 +1,6 @@
 import React from "react";
 import SubmissionModalTrigger from "./submission-modal-trigger";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -30,9 +31,12 @@ const Footer = () => {
                 Submit Project
               </SubmissionModalTrigger>
 
-              <button className="rounded-full border border-base-300/70 px-4 py-2 text-xs font-semibold text-base-content/80 transition hover:border-base-300 hover:text-base-content">
+              <Link
+                href="/projects"
+                className="rounded-full border border-base-300/70 px-4 py-2 text-xs font-semibold text-base-content/80 transition hover:border-base-300 hover:text-base-content"
+              >
                 Explore
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -40,30 +44,24 @@ const Footer = () => {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-base-content/50">
               Platform
             </p>
-            <a
+            <Link
               className="block text-base-content/70 hover:text-base-content"
-              href="#"
+              href="/categories"
             >
               Categories
-            </a>
-            <a
+            </Link>
+            <Link
               className="block text-base-content/70 hover:text-base-content"
-              href="#"
+              href="/builders"
             >
-              Top Builders
-            </a>
-            <a
+              Builders
+            </Link>
+            <Link
               className="block text-base-content/70 hover:text-base-content"
-              href="#"
+              href="/projects"
             >
-              Latest Projects
-            </a>
-            <a
-              className="block text-base-content/70 hover:text-base-content"
-              href="#"
-            >
-              Pricing
-            </a>
+              Projects
+            </Link>
           </div>
 
           <div className="space-y-3 text-sm">
@@ -103,7 +101,7 @@ const Footer = () => {
             <p className="text-sm text-base-content/70">
               Get weekly drops of standout launches and founder notes.
             </p>
-            <div className="flex flex-col gap-3 sm:flex-row">
+            {/* <div className="flex flex-col gap-3 sm:flex-row">
               <input
                 className="input input-bordered w-full bg-base-100"
                 placeholder="you@example.com"
@@ -112,7 +110,7 @@ const Footer = () => {
               <button className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-content shadow-lg shadow-primary/30 transition hover:brightness-110">
                 Join
               </button>
-            </div>
+            </div> */}
             <div className="flex items-center gap-3 text-xs text-base-content/60">
               <span>Twitter</span>
               <span>Discord</span>

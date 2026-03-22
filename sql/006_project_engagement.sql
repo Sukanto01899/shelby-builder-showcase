@@ -9,13 +9,13 @@ CREATE OR REPLACE FUNCTION public.project_record_view(
 RETURNS TABLE(views integer) AS $$
 BEGIN
   UPDATE public.projects
-  SET views = views + 1,
+  SET views = public.projects.views + 1,
       viewed_by = array_append(viewed_by, p_fingerprint)
   WHERE slug = p_slug
     AND NOT (viewed_by @> ARRAY[p_fingerprint]);
 
   RETURN QUERY
-  SELECT views FROM public.projects WHERE slug = p_slug;
+  SELECT public.projects.views FROM public.projects WHERE slug = p_slug;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
@@ -34,13 +34,13 @@ BEGIN
 
   IF NOT already_liked THEN
     UPDATE public.projects
-    SET like_count = like_count + 1,
+    SET like_count = public.projects.like_count + 1,
         liked_by = array_append(liked_by, p_fingerprint)
     WHERE slug = p_slug;
   END IF;
 
   RETURN QUERY
-  SELECT like_count, NOT already_liked
+  SELECT public.projects.like_count, NOT already_liked
   FROM public.projects
   WHERE slug = p_slug;
 END;

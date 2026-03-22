@@ -29,6 +29,6 @@ export async function POST(
     );
   }
 
-  const views = Array.isArray(data) ? data[0]?.views ?? null : data?.views;
+  const views = Array.isArray(data) ? (data[0]?.views ?? null) : data?.views;
   return NextResponse.json({ views });
 }

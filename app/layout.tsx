@@ -35,7 +35,7 @@ export const metadata: Metadata = {
       "Discover Shelby-powered projects and the builders behind them. Explore storage apps, tools, and experiences on Shelby.",
     images: [
       {
-        url: "/og.svg",
+        url: "/og.png",
         width: 1200,
         height: 630,
         alt: "Shelby Builder Showcase",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: "Shelby Builder Showcase",
     description:
       "Discover Shelby-powered projects and the builders behind them. Explore storage apps, tools, and experiences on Shelby.",
-    images: ["/og.svg"],
+    images: ["/og.png"],
   },
   robots: {
     index: true,

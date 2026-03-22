@@ -3,6 +3,7 @@
 import React from "react";
 import SubmissionModalTrigger from "@/components/submission-modal-trigger";
 import SearchProjects from "@/components/search-projects";
+import Link from "next/link";
 
 type CategoryItem = {
   name: string;
@@ -58,10 +59,13 @@ const Hero = ({
           </p>
 
           <div className="mt-7 flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
-            <button className="w-full rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-content shadow-lg shadow-primary/30 transition hover:brightness-110 sm:w-auto">
+            <Link
+              href="/projects"
+              className="w-full rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-content shadow-lg shadow-primary/30 transition hover:brightness-110 sm:w-auto"
+            >
               Explore
-            </button>
-            <SubmissionModalTrigger>Submit</SubmissionModalTrigger>
+            </Link>
+            <SubmissionModalTrigger>Submit Your Build</SubmissionModalTrigger>
           </div>
 
           <div className="mt-7 flex flex-wrap items-center justify-center gap-4 text-sm text-base-content/60 lg:justify-start">

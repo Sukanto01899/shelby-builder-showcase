@@ -17,7 +17,12 @@ type ProjectItem = {
   rating: number | null;
   live_url: string | null;
   github_repo_url: string | null;
-  builders: { name: string } | null;
+  builders: {
+    id: string;
+    name: string;
+    discord_username: string;
+    image_url: string | null;
+  } | null;
 };
 
 type ProjectsGalleryProps = {
@@ -38,6 +43,10 @@ const ProjectsGallery = ({ query, category }: ProjectsGalleryProps) => {
   const filterLoadingRef = useRef(false);
   const sectionRef = useRef<HTMLElement | null>(null);
   const scrollOnNextLoadRef = useRef(false);
+  const hasAppliedInitialFiltersRef = useRef(false);
+  const prevFiltersRef = useRef<{ query: string; category: string } | null>(
+    null,
+  );
 
   useEffect(() => {
     const active = loading;
@@ -104,9 +113,27 @@ const ProjectsGallery = ({ query, category }: ProjectsGalleryProps) => {
   }, []);
 
   useEffect(() => {
+    if (!hasAppliedInitialFiltersRef.current) {
+      hasAppliedInitialFiltersRef.current = true;
+      prevFiltersRef.current = {
+        query: query.trim(),
+        category: category || "all",
+      };
+      return;
+    }
+
     const handler = window.setTimeout(() => {
       const nextQuery = query.trim();
       const nextCategory = category || "all";
+      const prevFilters = prevFiltersRef.current;
+      if (
+        prevFilters &&
+        prevFilters.query === nextQuery &&
+        prevFilters.category === nextCategory
+      ) {
+        return;
+      }
+      prevFiltersRef.current = { query: nextQuery, category: nextCategory };
       setDebouncedQuery(nextQuery);
       setDebouncedCategory(nextCategory);
       setProjects([]);
@@ -140,7 +167,7 @@ const ProjectsGallery = ({ query, category }: ProjectsGalleryProps) => {
         <div className="flex border-b border-base-200 py-8 justify-between items-center">
           <div>
             <h2 className="mt-3 text-xl lg:text-2xl font-semibold text-base-content sm:text-3xl">
-              Project Builder Community
+              Projects By Community
             </h2>
             <p className="mt-2 text-sm text-base-content/70">
               Explore standout launches from builders across the ecosystem.
@@ -193,6 +220,8 @@ const ProjectsGallery = ({ query, category }: ProjectsGalleryProps) => {
               liveUrl={project.live_url}
               githubUrl={project.github_repo_url}
               builderName={project.builders?.name ?? null}
+              builderImage={project.builders?.image_url ?? null}
+              discordUsername={project.builders?.discord_username ?? null}
               variant={view}
             />
           ))}

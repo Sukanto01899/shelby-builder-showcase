@@ -19,7 +19,7 @@ export default function CategoriesPage() {
               Categories
             </p>
             <h1 className="mt-4 text-3xl font-semibold text-base-content sm:text-5xl">
-              Explore Shelby categories
+              Explore projects categories
             </h1>
             <p className="mt-4 max-w-2xl text-base text-base-content/70">
               Browse the different categories of projects being built on Shelby.
