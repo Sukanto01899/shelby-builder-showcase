@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shelby Builder Showcase (ShelbyBS)
 
-## Getting Started
+ShelbyBS is a community-run directory of real projects and the builders behind them. It highlights storage-focused apps, tools, and experiments built on Shelby, and makes it easy for teams to submit their work and for the community to discover and react to it.
 
-First, run the development server:
+## Why ShelbyBS
+
+- **Showcase real work**: A curated place for projects shipping on Shelby.
+- **Discover builders**: Profiles and links to the people behind each build.
+- **Community signal**: Lightweight reactions and engagement to surface what matters.
+- **Open contribution**: Issues and PRs welcome for improvements and fixes.
+
+## How to submit a project
+
+1. Open the site and click **Submit** in the header.
+2. Fill out the project form with title, description, category, links, and builder details.
+3. Submit. The project will appear in the showcase after review.
+
+If you are running locally, ensure your Supabase env vars are set so the submission route can write to the database.
+
+## How to create a GitHub issue
+
+1. Go to the repository’s **Issues** tab.
+2. Click **New issue**.
+3. Provide:
+   - A clear title
+   - Steps to reproduce (for bugs)
+   - Expected vs actual behavior
+   - Screenshots or logs if relevant
+4. Submit the issue.
+
+## How to open a pull request (PR)
+
+1. Fork the repository and create a new branch:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git checkout -b fix/short-description
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Make your changes and commit:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+git add .
+git commit -m "Fix: short description"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Push and open a PR:
 
-## Learn More
+```bash
+git push origin fix/short-description
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Open a pull request on GitHub, describe the change, and link any related issue.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Local development
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Install dependencies and start the dev server:
 
-## Deploy on Vercel
+```bash
+pnpm install
+pnpm dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Open `http://localhost:3000`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Environment variables
+
+Create `.env.local` with your Supabase credentials:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
+
+## Contributing
+
+- Keep PRs focused and small.
+- Match existing UI patterns and formatting.
+- Add or update tests if you change logic.
+
+## License
+
+See the repository license file.

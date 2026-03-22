@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createAdminClient } from "@/utils/supabase/admin";
+import { category as categoryOptions } from "@/constant";
 
 export default async function AdminProjectNewPage() {
   const supabase = createAdminClient();
@@ -50,11 +51,20 @@ export default async function AdminProjectNewPage() {
           </label>
           <label className="space-y-2 text-sm font-medium text-base-content/80">
             Category
-            <input
+            <select
               name="category"
               required
-              className="input input-bordered w-full bg-base-100"
-            />
+              className="select select-bordered w-full bg-base-100"
+            >
+              <option value="">Select category</option>
+              {categoryOptions
+                .filter((item) => item.value !== "all")
+                .map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.name}
+                  </option>
+                ))}
+            </select>
           </label>
           <label className="space-y-2 text-sm font-medium text-base-content/80">
             Builder

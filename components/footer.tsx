@@ -1,6 +1,7 @@
 import React from "react";
 import SubmissionModalTrigger from "./submission-modal-trigger";
 import Link from "next/link";
+import Image from "next/image";
 
 const Footer = () => {
   return (
@@ -14,8 +15,8 @@ const Footer = () => {
         <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr_1fr_1.2fr]">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-primary to-secondary text-base-100 font-semibold">
-                S
+              <div className="grid overflow-hidden h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-primary to-secondary text-base-100 font-semibold">
+                <Image src="/logo.png" width={40} height={40} alt="logo" />
               </div>
               <div>
                 <p className="text-base font-semibold tracking-tight">Shelby</p>
