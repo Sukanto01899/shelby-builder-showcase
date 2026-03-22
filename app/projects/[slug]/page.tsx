@@ -7,12 +7,65 @@ import ProjectComments from "@/components/project/ProjectComments";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { GithubIcon, MailIcon, XIcon } from "@/components/ui/icon";
+import type { Metadata } from "next";
 
 type CommentItem = {
   id: string;
   message: string;
   created_at: string;
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const supabase = createClient(await cookies());
+
+  const { data } = await supabase
+    .from("projects")
+    .select("title, description, thumbnail_url")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (!data) {
+    return {
+      title: "Project not found",
+      description: "This project does not exist or is no longer available.",
+    };
+  }
+
+  const title = data.title || "Project";
+  const description = data.description || "Shelby Builder Showcase project.";
+  const image = data.thumbnail_url || "/og.svg";
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `/projects/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
 
 export default async function ProjectDetailsPage({
   params,

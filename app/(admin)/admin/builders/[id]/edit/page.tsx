@@ -57,7 +57,6 @@ export default async function AdminBuilderEditPage({
             <input
               name="email"
               type="email"
-              required
               defaultValue={builder.email}
               className="input input-bordered w-full bg-base-100"
             />

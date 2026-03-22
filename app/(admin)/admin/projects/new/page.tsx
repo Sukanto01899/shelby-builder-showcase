@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { createAdminClient } from "@/utils/supabase/admin";
 import { category as categoryOptions } from "@/constant";
+import BuilderSelect from "@/components/admin/builder-select";
 
 export default async function AdminProjectNewPage() {
   const supabase = createAdminClient();
   const { data: builders } = await supabase
     .from("builders")
-    .select("id, name")
+    .select("id, name, discord_username")
     .order("name", { ascending: true });
 
   return (
@@ -68,18 +69,7 @@ export default async function AdminProjectNewPage() {
           </label>
           <label className="space-y-2 text-sm font-medium text-base-content/80">
             Builder
-            <select
-              name="builder_id"
-              required
-              className="select select-bordered w-full bg-base-100"
-            >
-              <option value="">Select builder</option>
-              {builders?.map((builder) => (
-                <option key={builder.id} value={builder.id}>
-                  {builder.name}
-                </option>
-              ))}
-            </select>
+            <BuilderSelect builders={builders || []} />
           </label>
         </div>
 

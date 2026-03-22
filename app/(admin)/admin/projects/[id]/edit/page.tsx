@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createAdminClient } from "@/utils/supabase/admin";
 import { category as categoryOptions } from "@/constant";
+import BuilderSelect from "@/components/admin/builder-select";
 
 export default async function AdminProjectEditPage({
   params,
@@ -23,8 +24,17 @@ export default async function AdminProjectEditPage({
 
   const { data: builders } = await supabase
     .from("builders")
-    .select("id, name")
+    .select("id, name, discord_username")
     .order("name", { ascending: true });
+
+  const initialBuilder = builders?.find(
+    (builder) => builder.id === project.builder_id,
+  );
+  const initialBuilderLabel = initialBuilder
+    ? initialBuilder.discord_username
+      ? `${initialBuilder.name} @${initialBuilder.discord_username}`
+      : initialBuilder.name
+    : "";
 
   return (
     <div className="space-y-6">
@@ -88,19 +98,11 @@ export default async function AdminProjectEditPage({
           </label>
           <label className="space-y-2 text-sm font-medium text-base-content/80">
             Builder
-            <select
-              name="builder_id"
-              required
-              defaultValue={project.builder_id}
-              className="select select-bordered w-full bg-base-100"
-            >
-              <option value="">Select builder</option>
-              {builders?.map((builder) => (
-                <option key={builder.id} value={builder.id}>
-                  {builder.name}
-                </option>
-              ))}
-            </select>
+            <BuilderSelect
+              builders={builders || []}
+              initialId={project.builder_id}
+              initialLabel={initialBuilderLabel}
+            />
           </label>
         </div>
 

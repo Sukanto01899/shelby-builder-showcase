@@ -14,7 +14,7 @@ export async function POST(
   const imageUrl = String(formData.get("image_url") || "").trim();
   const xProfileUrl = String(formData.get("x_profile_url") || "").trim();
 
-  if (!name || !email || !discord || !githubUrl || !xProfileUrl) {
+  if (!name || !discord || !githubUrl || !xProfileUrl) {
     return new Response("Missing required fields.", { status: 400 });
   }
 
@@ -23,7 +23,7 @@ export async function POST(
     .from("builders")
     .update({
       name,
-      email,
+      email: email || null,
       discord_username: discord,
       github_url: githubUrl,
       image_url: imageUrl || null,
@@ -37,5 +37,5 @@ export async function POST(
     });
   }
 
-  redirect(`/admin/builders/${id}/edit`);
+  redirect("/admin/builders");
 }

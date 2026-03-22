@@ -37,7 +37,6 @@ export default function AdminBuilderNewPage() {
             <input
               name="email"
               type="email"
-              required
               className="input input-bordered w-full bg-base-100"
             />
           </label>
