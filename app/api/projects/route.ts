@@ -20,6 +20,8 @@ export async function GET(request: Request) {
     .select(
       "id, title, description, category, status, views, like_count, thumbnail_url, slug, rating, live_url, github_repo_url, builders(id, name, discord_username, image_url)",
     )
+    .order("like_count", { ascending: false })
+    .order("views", { ascending: false })
     .order("created_at", { ascending: false })
     .range(from, to);
 

@@ -4,6 +4,8 @@ import { createAdminClient } from "@/utils/supabase/admin";
 import { category as categoryOptions } from "@/constant";
 import BuilderSelect from "@/components/admin/builder-select";
 
+export const revalidate = 0;
+
 export default async function AdminProjectEditPage({
   params,
 }: {

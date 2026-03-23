@@ -63,7 +63,7 @@ const ProjectCard = ({
 
         {/* Quick action buttons */}
         <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          {githubUrl && (
+          {/* {githubUrl && (
             <a
               href={githubUrl}
               target="_blank"
@@ -73,17 +73,17 @@ const ProjectCard = ({
             >
               <GithubIcon className="w-5 h-5" />
             </a>
-          )}
+          )} */}
           {liveUrl && (
-            <a
-              href={liveUrl}
-              target="_blank"
-              rel="noreferrer"
+            <span
+              // href={liveUrl}
+              // target="_blank"
+              // rel="noreferrer"
               className="btn btn-circle btn-ghost text-white hover:bg-white/20 flex items-center justify-center"
-              title="Visit Live Site"
+              title="View Project Details"
             >
               <ExternalUrl className="w-5 h-5" />
-            </a>
+            </span>
           )}
         </div>
 
